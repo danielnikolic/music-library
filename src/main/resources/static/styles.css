@@ -1,0 +1,315 @@
+body {
+	background-color: #69549d;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.titleFont {
+	font-family: Arial;
+	text-align: center;
+	font-size: 40px;
+}
+
+.subTitleFont {
+	font-family: Arial;
+	text-align: center;
+	font-size: 20px;
+	color: #8697c4;
+	margin-top: -40px;
+}
+
+.row {
+	margin-left: -5px;
+	margin-right: -5px;
+}
+
+.column {
+	float: left;
+	width: 50%;
+	padding: 5px;
+}
+
+.row::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+.addButton {
+	background-color: black;
+	color: white;
+	padding: 16px 20px;
+	border: none;
+	transition-duration: 0.4s;
+	font-weight: bold;
+	cursor: pointer;
+	width: 150px;
+}
+
+.addButton:hover {
+	background-color: #8697c4;
+	color: black;
+}
+
+caption {
+	display: table-caption;
+	text-align: center;
+	font-family: Arial;
+	font-size: 30px;
+	font-weight: bold;
+}
+
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+	border: 1px solid #ddd;
+}
+
+td,
+th {
+	border: 1px solid #000000;
+	padding: 8px;
+	font-family: Arial;
+	font-weight: bold;
+}
+
+th {
+	font-weight: bold;
+	text-transform: uppercase;
+	background-color: black;
+	color: white
+}
+
+tr:nth-child(odd) {
+	background-color: #adbbda;
+}
+
+tr:nth-child(even) {
+	background-color: #ede8f5;
+}
+
+tr:hover {
+	background-color: #8697c4;
+	color: white;
+}
+
+.artist-details-table {
+	margin: 0 auto;
+	width: 80%;
+	max-width: 800px;
+}
+
+.artist-details-table th,
+.artist-details-table td {
+	padding: 12px 15px;
+}
+
+.center-form {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	max-height: 50vh;
+}
+
+form {
+	background: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	width: 300px;
+}
+
+fieldset {
+	border: none;
+	padding: 0;
+}
+
+legend {
+	font-size: 1.2em;
+	margin-bottom: 10px;
+	color: #333;
+}
+
+p {
+	margin-bottom: 15px;
+}
+
+label {
+	display: block;
+	margin-bottom: 5px;
+	color: #555;
+}
+
+input[type="text"],
+select,
+input[type="date"] {
+	width: 100%;
+	padding: 8px;
+	box-sizing: border-box;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+input[type="button"] {
+	width: 100%;
+	padding: 10px;
+	background-color: #28a745;
+	border: none;
+	border-radius: 4px;
+	color: white;
+	font-size: 1em;
+	cursor: pointer;
+}
+
+input[type="button"]:hover {
+	background-color: #218838;
+}
+
+span {
+	color: red;
+	font-size: 0.9em;
+}
+
+.custom-alert {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
+
+.custom-alert-content {
+	background-color: white;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	text-align: center;
+	width: 300px;
+}
+
+.custom-alert-content #alertMessage {
+	color: red;
+	font-size: 0.9em;
+	font-family: arial, sans-serif;
+	margin-bottom: 6px;
+}
+
+.custom-alert-content button {
+	margin-top: 10px;
+	padding: 10px 20px;
+	background-color: #28a745;
+	border: none;
+	border-radius: 4px;
+	color: white;
+	font-size: 1em;
+	cursor: pointer;
+}
+
+.custom-alert-content button:hover {
+	background-color: #218838;
+}
+
+.artist-row {
+	cursor: pointer;
+}
+
+.album-row {
+	cursor: pointer;
+}
+
+.popup {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-content {
+	background-color: #fefefe;
+	margin: 15% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+	max-width: 300px;
+	text-align: center;
+	border-radius: 10px;
+	font-family: arial, sans-serif;
+	color: red;
+}
+
+.popup-button {
+	margin: 10px;
+	padding: 10px 20px;
+	cursor: pointer;
+	border: none;
+}
+
+#confirmDeleteButton:hover {
+	background-color: red;
+	color: white;
+}
+
+#cancelDeleteButton:hover {
+	background-color: lightgrey;
+	color: black;
+}
+
+#confirmDeleteButton,
+#cancelDeleteButton {
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgb(0, 0, 0);
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+	background-color: #fefefe;
+	font-family: arial, sans-serif;
+	margin: 15% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+	max-width: 300px;
+	text-align: center;
+	border-radius: 10px;
+	position: relative;
+}
+
+.modal-button {
+	margin: 10px;
+	padding: 10px 20px;
+	cursor: pointer;
+	border: none;
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#confirmUpdateButton:hover {
+	background-color: green;
+	color: white;
+}

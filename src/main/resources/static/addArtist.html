@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>Music Library - Add Artist</title>
+	<link rel="stylesheet" href="styles.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="./app.js"></script>
+</head>
+
+<body>
+	<div class="titleFont">
+		<h1>Add Artist</h1>
+	</div>
+
+	<div class="center-form">
+		<form id="artistDetails">
+			<fieldset>
+				<legend>Artist Details</legend>
+				<p id="artistName">
+					<label for="artistName">Artist Name</label>
+					<input id="artistName" name="artistName" type="text" /><span id=artistNameError></span>
+				</p>
+				<p id="genre">
+					<label for="genre">Genre</label>
+					<select id="genre" name="genre">
+						<option value="SELECT">Select</option>
+						<option value="ROCK">Rock</option>
+						<option value="POP">Pop</option>
+						<option value="HIP_HOP">Hip-Hop</option>
+						<option value="INDIE">Indie</option>
+						<option value="ELECTRONIC">Electronic</option>
+						<option value="SHOEGAZE">Shoegaze</option>
+						<option value="AMBIENT">Ambient</option>
+						<option value="METAL">Metal</option>
+						<option value="INDUSTRIAL">Industrial</option>
+					</select><span id=genreError></span>
+				</p>
+				<input onCLick="validateArtist()" type="button" id="addArtist" name="addArtist" value="Add Artist" />
+			</fieldset>
+		</form>
+	</div>
+</body>
+
+</html>

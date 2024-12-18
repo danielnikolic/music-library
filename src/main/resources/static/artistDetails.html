@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title id="pageTitle"></title>
+	<link rel="stylesheet" href="styles.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="./app.js"></script>
+</head>
+
+<body class="artist-details-page">
+	<div class="titleFont">
+		<h1 id="artistName"></h1>
+	</div>
+
+	<div class="center-container">
+		<div class="content">
+			<table class="artist-details-table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Release Date</th>
+					</tr>
+				</thead>
+				<tbody id="albumData"></tbody>
+			</table>
+		</div>
+		<div class="center-form">
+			<button id="deleteArtistButton" class="addButton">Delete Artist</button>
+			<button id="updateArtistButton" class="addButton">Update Artist</button>
+		</div>
+	</div>
+
+	<div id="confirmationPopup" class="popup">
+		<div class="popup-content">
+			<p>Deleting this artist will delete all associated albums. Are you sure you want to continue?</p>
+			<button id="confirmDeleteButton" class="popup-button">Yes</button>
+			<button id="cancelDeleteButton" class="popup-button">No</button>
+		</div>
+	</div>
+	<div id="updateModal" class="modal">
+		<div class="modal-content">
+			<label for="genreSelect">Genre</label>
+			<select id="genreSelect" name="genre">
+				<option value="ROCK">Rock</option>
+				<option value="POP">Pop</option>
+				<option value="HIP_HOP">Hip-Hop</option>
+				<option value="INDIE">Indie</option>
+				<option value="ELECTRONIC">Electronic</option>
+				<option value="SHOEGAZE">Shoegaze</option>
+				<option value="AMBIENT">Ambient</option>
+				<option value="METAL">Metal</option>
+				<option value="INDUSTRIAL">Industrial</option>
+			</select>
+			<button id="confirmUpdateButton" class="modal-button">Update</button>
+		</div>
+	</div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const urlParams = new URLSearchParams(window.location.search);
+			const artistId = urlParams.get('artistId');
+
+			// Table generation function
+			$.ajax({
+				url: `http://localhost:8080/artist/id/${artistId}`,
+				type: 'GET',
+				dataType: 'json',
+				success: function (artist) {
+					document.getElementById('artistName').textContent = artist.name;
+					document.getElementById('pageTitle').textContent = `Music Library - ${artist.name}`;
+
+					$.ajax({
+						url: `http://localhost:8080/album/artist/${artistId}`,
+						type: 'GET',
+						dataType: 'json',
+						success: function (albums) {
+							generateAlbumTable(albums, false);
+						},
+						error: function (xhr, thrownError) {
+							console.log(xhr.status);
+							console.log(thrownError);
+						}
+					});
+				},
+				error: function (xhr, thrownError) {
+					console.log(xhr.status);
+					console.log(thrownError);
+				}
+			});
+
+			// Delete artist functionality
+			const deleteArtistButton = document.getElementById('deleteArtistButton');
+			const confirmationPopup = document.getElementById('confirmationPopup');
+			const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+			const cancelDeleteButton = document.getElementById('cancelDeleteButton');
+
+			deleteArtistButton.addEventListener('click', function () {
+				confirmationPopup.style.display = 'block';
+			});
+			cancelDeleteButton.addEventListener('click', function () {
+				confirmationPopup.style.display = 'none';
+			});
+			confirmDeleteButton.addEventListener('click', function () {
+				$.ajax({
+					url: `http://localhost:8080/artist/${artistId}`,
+					type: 'DELETE',
+					success: function () {
+						window.location.href = 'index.html';
+					},
+					error: function (xhr, thrownError) {
+						console.log(xhr.status);
+						console.log(thrownError);
+					}
+				});
+			});
+
+			// Update artist functionality
+			const updateArtistButton = document.getElementById('updateArtistButton');
+			const updateModal = document.getElementById('updateModal');
+
+			updateArtistButton.addEventListener('click', function () {
+				$.ajax({
+					url: `http://localhost:8080/artist/id/${artistId}`,
+					type: 'GET',
+					success: function (artist) {
+						genreSelect.value = artist.genre;
+						updateModal.style.display = 'block';
+					},
+					error: function (xhr, thrownError) {
+						console.log(xhr.status);
+						console.log(thrownError);
+					}
+				});
+			});
+			window.addEventListener('click', function (event) {
+				if (event.target == updateModal) {
+					updateModal.style.display = 'none';
+				}
+			});
+
+			confirmUpdateButton.addEventListener('click', function () {
+				const newGenre = document.getElementById('genreSelect').value;
+
+				$.ajax({
+					url: `http://localhost:8080/artist/${artistId}?genre=${newGenre}`,
+					type: 'PUT',
+					success: function () {
+						window.location.href = 'index.html';
+					},
+					error: function (xhr, thrownError) {
+						console.log(xhr.status);
+						console.log(thrownError);
+					}
+				});
+			});
+		});
+	</script>
+</body>
+
+</html>

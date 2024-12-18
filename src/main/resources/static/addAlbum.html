@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>Music Library - Add Album</title>
+	<link rel="stylesheet" href="styles.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="./app.js"></script>
+</head>
+
+<body>
+	<div class="titleFont">
+		<h1>Add Album</h1>
+	</div>
+
+	<div class="center-form">
+		<form id="albumDetails">
+			<fieldset>
+				<legend>Album Details</legend>
+				<p id="albumName">
+					<label for="albumName">Album Name</label>
+					<input id="albumName" name="albumName" type="text" /><span id=albumNameError></span>
+				</p>
+				<p id="releaseDate">
+					<label for="releaseDate">Release Date</label>
+					<input id="releaseDate" name="releaseDate" type="date" /><span id=releaseDateError></span>
+				</p>
+				<p id="artist">
+					<label for="artist">Artist</label>
+					<select id="artistList" name="artistList">
+						<option value="SELECT">Select</option>
+					</select><span id=artistError></span>
+				</p>
+				<input onCLick="validateAlbum()" type="button" id="addAlbum" name="addAlbum" value="Add Album" />
+			</fieldset>
+		</form>
+	</div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const today = new Date().toISOString().split('T')[0];
+			document.getElementById('releaseDate').value = today;
+		});
+	</script>
+</body>
+
+</html>

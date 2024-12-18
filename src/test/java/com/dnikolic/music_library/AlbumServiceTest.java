@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -43,14 +44,18 @@ public class AlbumServiceTest {
 
 		assertThat(albums).hasSize(3);
 
+		int albumAge1 = Period.between(album1.getReleaseDate(), LocalDate.now()).getYears();
+		int albumAge2 = Period.between(album2.getReleaseDate(), LocalDate.now()).getYears();
+		int albumAge3 = Period.between(album3.getReleaseDate(), LocalDate.now()).getYears();
+
 		assertThat(albums.get(0).getName()).isEqualTo("In Rainbows");
-		assertThat(albums.get(0).getAge()).isEqualTo(17);
+		assertThat(albums.get(0).getAge()).isEqualTo(albumAge1);
 
 		assertThat(albums.get(1).getName()).isEqualTo("Jubilee");
-		assertThat(albums.get(1).getAge()).isEqualTo(3);
+		assertThat(albums.get(1).getAge()).isEqualTo(albumAge2);
 
 		assertThat(albums.get(2).getName()).isEqualTo("To Pimp A Butterfly");
-		assertThat(albums.get(2).getAge()).isEqualTo(9);
+		assertThat(albums.get(2).getAge()).isEqualTo(albumAge3);
 
 		verify(albumRepository).findAll();
 	}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title id="pageTitle"></title>
+	<link rel="stylesheet" href="styles.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="./app.js"></script>
+</head>
+
+<body class="album-details-page">
+	<div class="titleFont">
+		<h1 id="albumName"></h1>
+	</div>
+	<div class="subTitleFont">
+		<h1 id="artistName"></h1>
+	</div>
+
+	<div class="center-container">
+		<div class="center-form">
+			<button id="deleteAlbumButton" class="addButton">Delete Album</button>
+			<button id="updateAlbumButton" class="addButton">Update Album</button>
+		</div>
+	</div>
+
+	<div id="confirmationPopup" class="popup">
+		<div class="popup-content">
+			<p>Are you sure you want to delete this album?</p>
+			<button id="confirmDeleteButton" class="popup-button">Yes</button>
+			<button id="cancelDeleteButton" class="popup-button">No</button>
+		</div>
+	</div>
+	<div id="updateModal" class="modal">
+		<div class="modal-content">
+			<label for="releaseDate">Release Date</label>
+			<input id="releaseDate" name="releaseDate" type="date" />
+			<button id="confirmUpdateButton" class="modal-button">Update</button>
+		</div>
+	</div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const urlParams = new URLSearchParams(window.location.search);
+			const albumId = urlParams.get('albumId');
+
+			// Page generation function
+			$.ajax({
+				url: `http://localhost:8080/album/id/${albumId}`,
+				type: 'GET',
+				dataType: 'json',
+				success: function (album) {
+					document.getElementById('albumName').textContent = album.name;
+					document.getElementById('artistName').textContent = album.artist.name;
+					document.getElementById('pageTitle').textContent = `Music Library - ${album.name}`;
+				},
+				error: function (xhr, thrownError) {
+					console.log(xhr.status);
+					console.log(thrownError);
+				}
+			});
+
+			// Delete album functionality
+			const deleteAlbumButton = document.getElementById('deleteAlbumButton');
+			const confirmationPopup = document.getElementById('confirmationPopup');
+			const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+			const cancelDeleteButton = document.getElementById('cancelDeleteButton');
+
+			deleteAlbumButton.addEventListener('click', function () {
+				confirmationPopup.style.display = 'block';
+			});
+			cancelDeleteButton.addEventListener('click', function () {
+				confirmationPopup.style.display = 'none';
+			});
+			confirmDeleteButton.addEventListener('click', function () {
+				$.ajax({
+					url: `http://localhost:8080/album/${albumId}`,
+					type: 'DELETE',
+					success: function () {
+						window.location.href = 'index.html';
+					},
+					error: function (xhr, thrownError) {
+						console.log(xhr.status);
+						console.log(thrownError);
+					}
+				});
+			});
+
+			// Update album functionality
+			const updateAlbumButton = document.getElementById('updateAlbumButton');
+			const updateModal = document.getElementById('updateModal');
+			const releaseDate = document.getElementById('releaseDate');
+			let originalReleaseDate = '';
+
+			updateAlbumButton.addEventListener('click', function () {
+				$.ajax({
+					url: `http://localhost:8080/album/id/${albumId}`,
+					type: 'GET',
+					success: function (album) {
+						originalReleaseDate = album.releaseDate;
+						releaseDate.value = album.releaseDate;
+						updateModal.style.display = 'block';
+					},
+					error: function (xhr, thrownError) {
+						console.log(xhr.status);
+						console.log(thrownError);
+					}
+				});
+			});
+			window.addEventListener('click', function (event) {
+				if (event.target == updateModal) {
+					updateModal.style.display = 'none';
+				}
+			});
+			confirmUpdateButton.addEventListener('click', function () {
+				let newReleaseDate = releaseDate.value;
+				if (newReleaseDate === '') {
+					newReleaseDate = originalReleaseDate;
+				}
+				$.ajax({
+					url: `http://localhost:8080/album/${albumId}?releaseDate=${newReleaseDate}`,
+					type: 'PUT',
+					success: function () {
+						window.location.href = 'index.html';
+					},
+					error: function (xhr, thrownError) {
+						console.log(xhr.status);
+						console.log(thrownError);
+					}
+				});
+			});
+		});
+	</script>
+</body>
+
+</html>

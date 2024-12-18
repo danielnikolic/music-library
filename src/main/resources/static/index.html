@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>Music Library</title>
+	<link rel="stylesheet" href="styles.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="./app.js"></script>
+</head>
+
+<body>
+	<div class="titleFont">
+		<h1>Music Library</h1>
+	</div>
+
+	<div class="row">
+		<div class="column">
+			<table>
+				<caption>Artist Data</caption>
+				<caption><button class="addButton" onclick="window.location.href='addArtist.html'">Add</button>
+				</caption>
+				<caption><br></caption>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Genre</th>
+					</tr>
+				</thead>
+				<tbody id="artistData"></tbody>
+
+			</table>
+		</div>
+		<div class="column">
+			<table>
+				<caption>Album Data</caption>
+				<caption><button class="addButton" id="addAlbumButton">Add</button></caption>
+				<caption><br></caption>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Release Date</th>
+						<th>Artist</th>
+					</tr>
+				</thead>
+				<tbody id="albumData"></tbody>
+			</table>
+		</div>
+	</div>
+
+	<div id="customAlert" class="custom-alert" style="display: none;">
+		<div class="custom-alert-content">
+			<div id="alertMessage"></div>
+			<button id="closeAlertButton">OK</button>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function () {
+			const artistTableBody = $('#artistData');
+			const addAlbumButton = $('#addAlbumButton');
+			const customAlert = $('#customAlert');
+			const alertMessage = $('#alertMessage');
+			const closeAlertButton = $('#closeAlertButton');
+
+			customAlert.hide();
+			addAlbumButton.click(function (event) {
+				event.preventDefault();
+				checkArtists();
+			});
+			function checkArtists() {
+				if (artistTableBody.children('tr').length > 0) {
+					window.location.href = 'addAlbum.html';
+				} else {
+					showAlert('Please add at least one artist before adding an album.');
+				}
+			}
+			function showAlert(message) {
+				alertMessage.text(message);
+				customAlert.show();
+			}
+			closeAlertButton.click(function () {
+				customAlert.hide();
+			});
+		});
+	</script>
+</body>
+
+</html>
